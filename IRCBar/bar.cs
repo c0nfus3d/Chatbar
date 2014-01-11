@@ -32,10 +32,10 @@ namespace IRCBar
         /* Connection Status : Boolean */
             bool connection_status = false;
         /* Define User */
-            private static string USER = "JI6.net IRC Bar";
+            private static string USER = "C0NFUS3D IRC Bar";
         /* Default Nickname */
             static Random _r = new Random();
-            public string NICK = "ji6_" + _r.Next();
+            public string NICK = "bar_" + _r.Next();
         /* Define current chat room */
             public string _ROOM;
         /* IRC Process Thread */
