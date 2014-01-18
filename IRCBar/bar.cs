@@ -35,13 +35,11 @@ namespace IRCBar
             private static string USER = "C0NFUS3D IRC Bar";
         /* Default Nickname */
             static Random _r = new Random();
-            public string NICK = "bar_" + _r.Next();
+            public string NICK = "barchat_" + _r.Next();
         /* Define current chat room */
             public string _ROOM;
         /* IRC Process Thread */
             public Thread irclisten;
-        /* Link Click Event */
-            public event LinkClickedEventHandler LinkClicked;
 
             delegate void SetTextCallback(string text);
 
@@ -277,15 +275,18 @@ namespace IRCBar
                     /* Send Message */
                     else
                     {
-                        if (txtMessage.Text.Substring(0, 1) == "/")
+                        if (txtMessage.Text != "")
                         {
-                            irc.Message(SendType.Action, _ROOM, txtMessage.Text);
-                            txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + txtMessage.Text.Substring(1);
-                        }
-                        else
-                        {
-                            irc.Message(SendType.Message, _ROOM, txtMessage.Text);
-                            txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + txtMessage.Text;
+                            if (txtMessage.Text.Substring(0, 1) == "/")
+                            {
+                                irc.Message(SendType.Action, _ROOM, txtMessage.Text);
+                                txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + txtMessage.Text.Substring(1);
+                            }
+                            else
+                            {
+                                irc.Message(SendType.Message, _ROOM, txtMessage.Text);
+                                txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + txtMessage.Text;
+                            }
                         }
                     }
 

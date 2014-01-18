@@ -101,8 +101,8 @@
             // After the form is resized, resize and position the elements
             this.txtChat.Size = new System.Drawing.Size(this.Width - 24, this.txtChat.Size.Height);
             this.txtMessage.Size = new System.Drawing.Size(this.Width - 152, this.txtMessage.Size.Height);
-            this.btnExit.Location = new System.Drawing.Point(this.Width - 70, this.Height - 53);
-            this.btnSend.Location = new System.Drawing.Point(this.Width - 135, this.Height - 53);
+            this.btnExit.Location = new System.Drawing.Point(this.Width - 70, 72);
+            this.btnSend.Location = new System.Drawing.Point(this.Width - 135, 72);
 
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
