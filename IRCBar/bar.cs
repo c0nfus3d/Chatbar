@@ -36,7 +36,7 @@ namespace IRCBar
             private static string USER = "C0NFUS3D IRC Bar";
         /* Default Nickname */
             static Random _r = new Random();
-            public string NICK = "barchat_" + _r.Next();
+            public string NICK = "barc_" + _r.Next();
         /* Define current chat room */
             public string _ROOM;
         /* IRC Process Thread */
@@ -183,7 +183,7 @@ namespace IRCBar
 
         public void OnQueryMessage(Data ircdata)
         {
-            SetText("\n" + DateTime.Now + ": " + ircdata.MessageEx);
+            SetText("\n" + DateTime.Now + ": " + ircdata.Nick + ": " + ircdata.Message);
         }
 
         public void OnChannelMessage(Data ircdata)
@@ -266,6 +266,7 @@ namespace IRCBar
                 {
                     string command_nick = "/nick ";
                     string command_join = "/join ";
+                    string command_msg = "/msg ";
 
                     /* Join Chat Room */
                     if (txtMessage.Text.Contains(command_join) == true)
@@ -275,6 +276,16 @@ namespace IRCBar
                         _ROOM = pieces[1];
                         txtChat.Text = "Joining Room " + _ROOM + " ...";
                         irc.Join(_ROOM);
+
+                        try
+                        {
+                            irclisten.Abort();
+                        }
+
+                        catch
+                        {
+
+                        }
 
                         // Spawn a thread to handle the listen.
                         irclisten = new Thread(new ThreadStart(IrcListenThread));
@@ -290,15 +301,26 @@ namespace IRCBar
                         irc.Login(NICK, USER);
                     }
 
+                    /* Private Message */
+                    else if (txtMessage.Text.Contains(command_msg) == true)
+                    {
+                        string[] pieces = txtMessage.Text.Split(new string[] { " " },
+                                StringSplitOptions.None);
+                        int xvar = pieces[1].Length + 5;
+
+                        irc.Message(SendType.Message, pieces[1], txtMessage.Text.Substring(xvar));
+                        txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + pieces[1] + ": " + txtMessage.Text.Substring(xvar);
+                    }
+
                     /* Send Message */
                     else
                     {
                         if (txtMessage.Text != "")
                         {
-                            if (txtMessage.Text.Substring(0, 1) == "/")
+                            if (txtMessage.Text.Substring(0, 4) == "/me ")
                             {
-                                irc.Message(SendType.Action, _ROOM, txtMessage.Text);
-                                txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + txtMessage.Text.Substring(1);
+                                irc.Message(SendType.Action, _ROOM, txtMessage.Text.Substring(4));
+                                txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + txtMessage.Text.Substring(4);
                             }
                             else
                             {

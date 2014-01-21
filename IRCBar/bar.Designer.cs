@@ -1,4 +1,5 @@
-﻿namespace IRCBar
+﻿using System;
+namespace IRCBar
 {
     partial class bar
     {
@@ -28,6 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.SettHeight = Convert.ToInt32(Properties.Settings.Default.WidgetHeight);
             this.components = new System.ComponentModel.Container();
             this.btnSend = new System.Windows.Forms.Button();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(bar));
@@ -85,9 +87,9 @@
             // txtMessage
             // 
             this.txtMessage.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMessage.Location = new System.Drawing.Point(12, 72);
+            this.txtMessage.Location = new System.Drawing.Point(12, this.SettHeight - 18);
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(871, 23);
+            this.txtMessage.Size = new System.Drawing.Size(871, this.SettHeight - 67);
             this.txtMessage.TabIndex = 0;
             // 
             // txtChat
@@ -98,7 +100,7 @@
             this.txtChat.Location = new System.Drawing.Point(13, 13);
             this.txtChat.Name = "txtChat";
             this.txtChat.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.txtChat.Size = new System.Drawing.Size(999, 53);
+            this.txtChat.Size = new System.Drawing.Size(999, this.SettHeight - 37);
             this.txtChat.TabIndex = 4;
             this.txtChat.Text = "Welcome to the IRC Bar - http://TheyConfuse.Me/Code/IRCBar \nType: /connect <server.address> <port #" +
                 ">\nEx: /connect irc.freenode.net 6667";
@@ -110,7 +112,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ShowInTaskbar = false;
-            this.ClientSize = new System.Drawing.Size(1280, 90);
+            this.ClientSize = new System.Drawing.Size(1280, this.SettHeight);
             this.ControlBox = false;
             this.Controls.Add(this.txtChat);
             this.Controls.Add(this.txtMessage);
@@ -122,7 +124,7 @@
             // After the form is resized, resize and position the elements
             this.txtChat.Size = new System.Drawing.Size(this.Width - 24, this.txtChat.Size.Height);
             this.txtMessage.Size = new System.Drawing.Size(this.Width - 87, this.txtMessage.Size.Height);
-            this.btnSend.Location = new System.Drawing.Point(this.Width - 70, 72);
+            this.btnSend.Location = new System.Drawing.Point(this.Width - 70, this.SettHeight - 18);
 
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
@@ -139,13 +141,14 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnSend;
-        private System.Windows.Forms.TextBox txtMessage;
-        private System.Windows.Forms.RichTextBox txtChat;
+        public System.Windows.Forms.Button btnSend;
+        public System.Windows.Forms.TextBox txtMessage;
+        public System.Windows.Forms.RichTextBox txtChat;
         private System.Windows.Forms.NotifyIcon TheIcon;
         private System.Windows.Forms.ContextMenuStrip IconMenu;
         private System.Windows.Forms.ToolStripMenuItem IconMenuExit;
         private System.Windows.Forms.ToolStripMenuItem IconMenuSettings;
+        private int SettHeight;
     }
 }
 
