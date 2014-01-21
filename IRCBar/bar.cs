@@ -28,6 +28,7 @@ namespace IRCBar
     public partial class bar : ShellLib.ApplicationDesktopToolbar
     {
         public static IrcClient irc = new IrcClient();
+        private static Settings SettingsForm { get; set; }
 
         /* Connection Status : Boolean */
             bool connection_status = false;
@@ -67,6 +68,32 @@ namespace IRCBar
             irc.OnNickChange += OnNickChange;
 
             txtChat.LinkClicked += Link_Clicked;
+            SettingsForm = new Settings();
+        }
+
+        private void IconMenuExit_Click(object sender, EventArgs e)
+        {
+            if (connection_status)
+            {
+                irclisten.Abort();
+            }
+            Application.Exit();
+        }
+
+        private void IconMenuSettings_Click(object sender, EventArgs e)
+        {
+            if (!SettingsForm.Visible)
+            {
+                try
+                {
+                    SettingsForm.Show(this);
+                }
+                catch
+                {
+                    SettingsForm = new Settings();
+                    SettingsForm.Show(this);
+                }
+            }
         }
 
         private void Link_Clicked(object sender, System.Windows.Forms.LinkClickedEventArgs e)
@@ -173,15 +200,6 @@ namespace IRCBar
             {
                 SetText("\n" + ircdata.Nick + ": " + ircdata.RawMessage);
             }*/
-        }
-
-        private void btnExit_Click(object sender, EventArgs e)
-        {
-            if (connection_status)
-            {
-                irclisten.Abort();
-            }
-            Application.Exit(); ;
         }
 
         private void SetText(string text)

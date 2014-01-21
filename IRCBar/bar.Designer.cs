@@ -28,10 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnSend = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(bar));
             this.txtMessage = new System.Windows.Forms.TextBox();
-            this.btnExit = new System.Windows.Forms.Button();
             this.txtChat = new System.Windows.Forms.RichTextBox();
+            this.TheIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.IconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.IconMenuSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.IconMenuExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.IconMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSend
@@ -39,13 +45,42 @@
             this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSend.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSend.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnSend.Location = new System.Drawing.Point(889, 70);
+            this.btnSend.Location = new System.Drawing.Point(957, 70);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(62, 23);
             this.btnSend.TabIndex = 1;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            // 
+            // TheIcon
+            // 
+            this.TheIcon.ContextMenuStrip = this.IconMenu;
+            this.TheIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.TheIcon.Text = "C0NFUS3D Widget";
+            this.TheIcon.Visible = true;
+            // 
+            // IconMenu
+            // 
+            this.IconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.IconMenuSettings,
+            this.IconMenuExit});
+            this.IconMenu.Name = "IconMenu";
+            this.IconMenu.Size = new System.Drawing.Size(153, 70);
+            // 
+            // IconMenuSettings
+            // 
+            this.IconMenuSettings.Name = "IconMenuSettings";
+            this.IconMenuSettings.Size = new System.Drawing.Size(152, 22);
+            this.IconMenuSettings.Text = "&Settings";
+            this.IconMenuSettings.Click += new System.EventHandler(this.IconMenuSettings_Click);
+            // 
+            // IconMenuExit
+            // 
+            this.IconMenuExit.Name = "IconMenuExit";
+            this.IconMenuExit.Size = new System.Drawing.Size(152, 22);
+            this.IconMenuExit.Text = "E&xit";
+            this.IconMenuExit.Click += new System.EventHandler(this.IconMenuExit_Click);
             // 
             // txtMessage
             // 
@@ -54,18 +89,6 @@
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.Size = new System.Drawing.Size(871, 23);
             this.txtMessage.TabIndex = 0;
-            // 
-            // btnExit
-            // 
-            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.Location = new System.Drawing.Point(957, 70);
-            this.btnExit.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(55, 23);
-            this.btnExit.TabIndex = 3;
-            this.btnExit.Text = "Exit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // txtChat
             // 
@@ -90,19 +113,16 @@
             this.ClientSize = new System.Drawing.Size(1280, 90);
             this.ControlBox = false;
             this.Controls.Add(this.txtChat);
-            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.btnSend);
+            this.IconMenu.ResumeLayout(false);
             this.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Top;
-
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(bar));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 
             // After the form is resized, resize and position the elements
             this.txtChat.Size = new System.Drawing.Size(this.Width - 24, this.txtChat.Size.Height);
-            this.txtMessage.Size = new System.Drawing.Size(this.Width - 152, this.txtMessage.Size.Height);
-            this.btnExit.Location = new System.Drawing.Point(this.Width - 70, 72);
-            this.btnSend.Location = new System.Drawing.Point(this.Width - 135, 72);
+            this.txtMessage.Size = new System.Drawing.Size(this.Width - 87, this.txtMessage.Size.Height);
+            this.btnSend.Location = new System.Drawing.Point(this.Width - 70, 72);
 
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
@@ -121,8 +141,11 @@
 
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.TextBox txtMessage;
-        private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.RichTextBox txtChat;
+        private System.Windows.Forms.NotifyIcon TheIcon;
+        private System.Windows.Forms.ContextMenuStrip IconMenu;
+        private System.Windows.Forms.ToolStripMenuItem IconMenuExit;
+        private System.Windows.Forms.ToolStripMenuItem IconMenuSettings;
     }
 }
 
