@@ -29,18 +29,27 @@ namespace IRCBar
     {
         public static IrcClient irc = new IrcClient();
         private static Settings SettingsForm { get; set; }
+        private static Random _r = new Random();
+        public int PORT = 6667;
 
-        /* Connection Status : Boolean */
-            bool connection_status = false;
-        /* Define User */
+        /* Connection Status */
+            public bool connection_status = false;
+        /* Userstring */
             private static string USER = "C0NFUS3D IRC Bar";
         /* Default Nickname */
-            static Random _r = new Random();
             public string NICK = "barc_" + _r.Next();
-        /* Define current chat room */
+        /* Current chat room */
             public string _ROOM;
+        /* IRC Server */
+            public string _SERVER;
+        /* Chat room topic */
+            public string _TOPIC;
+        /* List of currently connected users */
+            public List<string> _CurrentUsers = new List<string>();
         /* IRC Process Thread */
             public Thread irclisten;
+
+            private static ChannelInformation _ChannelInformation { get; set; }
 
             delegate void SetTextCallback(string text);
 
@@ -48,6 +57,10 @@ namespace IRCBar
         {
             InitializeComponent();
 
+            if (Properties.Settings.Default.PreferredNickname != "")
+            {
+                NICK = Properties.Settings.Default.PreferredNickname;
+            }
 
             irc.SendDelay = 200;
             irc.AutoRetry = true;
@@ -69,6 +82,78 @@ namespace IRCBar
 
             txtChat.LinkClicked += Link_Clicked;
             SettingsForm = new Settings();
+            _ChannelInformation = new ChannelInformation();
+        }
+
+        private void bar_Load(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.Autoconnect == true)
+            {
+                if (Properties.Settings.Default.DefaultServerPort != "")
+                {
+                    PORT = Convert.ToInt32(Properties.Settings.Default.DefaultServerPort);
+                }
+                txtChat.Text = "Connecting to " + Properties.Settings.Default.DefaultServer + " on port " + PORT + " ...";
+
+                if (irc.Connect(Properties.Settings.Default.DefaultServer, PORT) == true)
+                {
+                    irc.Login(NICK, USER);
+                    connection_status = true;
+                    _SERVER = Properties.Settings.Default.DefaultServer;
+                    txtChat.Text += "\n" + "Connected to " + Properties.Settings.Default.DefaultServer;
+
+                    if (Properties.Settings.Default.DefaultChannel == "")
+                    {
+                        txtChat.Text += "\n" + "Type: /join #ROOM" +
+                            "\nEx: /join #chat";
+                    }
+                    else
+                    {
+                        _ROOM = Properties.Settings.Default.DefaultChannel;
+                        txtChat.Text = "Joining Room " + _ROOM + " on " + _SERVER + " ...";
+                        irc.Join(_ROOM);
+
+                        if (btnChannelInformation.Enabled == false)
+                        {
+                            btnChannelInformation.Enabled = true;
+                        }
+
+                        if (IconMenuChannelInformation.Enabled == false)
+                        {
+                            IconMenuChannelInformation.Enabled = true;
+                        }
+
+                        try
+                        {
+                            irclisten.Abort();
+                        }
+
+                        catch
+                        {
+
+                        }
+
+                        // Spawn a thread to handle the listen.
+                        irclisten = new Thread(new ThreadStart(IrcListenThread));
+                        irclisten.Start();
+                    }
+                }
+                else
+                {
+                    txtChat.Text += "\n" + "Error: Could not connect.";
+                }
+            }
+            else
+            {
+                if (Properties.Settings.Default.DefaultServer != "")
+                {
+                    if (Properties.Settings.Default.DefaultServerPort != "")
+                    {
+                        PORT = Convert.ToInt32(Properties.Settings.Default.DefaultServerPort);
+                    }
+                    txtMessage.Text = "/connect " + Properties.Settings.Default.DefaultServer + " " + PORT.ToString();
+                }
+            }
         }
 
         private void IconMenuExit_Click(object sender, EventArgs e)
@@ -78,6 +163,28 @@ namespace IRCBar
                 irclisten.Abort();
             }
             Application.Exit();
+        }
+
+        private void IconMenuChannelInformation_Click(object sender, EventArgs e)
+        {
+            if (!_ChannelInformation.Visible)
+            {
+                try
+                {
+                    _ChannelInformation.Show(this);
+                }
+                catch
+                {
+                    _ChannelInformation = new ChannelInformation();
+                    _ChannelInformation.Show(this);
+                }
+
+                _ChannelInformation.BringToFront();
+            }
+            else
+            {
+                _ChannelInformation.BringToFront();
+            }
         }
 
         private void IconMenuSettings_Click(object sender, EventArgs e)
@@ -93,6 +200,12 @@ namespace IRCBar
                     SettingsForm = new Settings();
                     SettingsForm.Show(this);
                 }
+
+                SettingsForm.BringToFront();
+            }
+            else
+            {
+                SettingsForm.BringToFront();
             }
         }
 
@@ -110,6 +223,7 @@ namespace IRCBar
         {
             if (_ROOM == channel)
             {
+                _TOPIC = topic;
                 SetText("The current topic is: " + topic);
             }
         }
@@ -118,6 +232,7 @@ namespace IRCBar
         {
             if (_ROOM == channel)
             {
+                _TOPIC = newtopic;
                 SetText("\n" + DateTime.Now + ": " + who + " has changed the topic: " + newtopic);
             }
         }
@@ -150,12 +265,15 @@ namespace IRCBar
         {
             if (_ROOM == channel)
             {
+                _CurrentUsers.Remove(who);
                 SetText("\n" + DateTime.Now + ": " + who + " has left - " + partmessage);
             }
         }
 
         public void OnNickChange(string oldnickname, string newnickname, Data ircdata)
         {
+            _CurrentUsers.Remove(oldnickname);
+            _CurrentUsers.Add(newnickname);
             SetText("\n" + DateTime.Now + ": " + oldnickname + " is now known as " + newnickname);
         }
 
@@ -163,13 +281,19 @@ namespace IRCBar
         {
             if (_ROOM == channel)
             {
+                foreach (string bit in userlist)
+                {
+                    _CurrentUsers.Add(bit);
+                }
+
                 string currentUsers = string.Join(", ", userlist);
-                SetText("\nCurrent Users: " + currentUsers);
+                SetText("\nCurrent Users: " + currentUsers.Substring(0, currentUsers.Length - 2));
             }
         }
 
         public void OnQuit(string who, string quitmessage, Data ircdata)
         {
+            _CurrentUsers.Remove(who);
             SetText("\n" + DateTime.Now + ": " + who + " has quit");
         }
 
@@ -177,7 +301,9 @@ namespace IRCBar
         {
             if (_ROOM == channelname)
             {
+                _CurrentUsers.Add(who);
                 SetText("\n" + DateTime.Now + ": " + who + " has joined the chat.");
+                
             }
         }
 
@@ -221,23 +347,52 @@ namespace IRCBar
         }
 
 
+        private void btnChannelInformation_Click(object sender, EventArgs e)
+        {
+            if (!_ChannelInformation.Visible)
+            {
+                try
+                {
+                    _ChannelInformation.Show(this);
+                }
+                catch
+                {
+                    _ChannelInformation = new ChannelInformation();
+                    _ChannelInformation.Show(this);
+                }
+
+                _ChannelInformation.BringToFront();
+            }
+            else
+            {
+                _ChannelInformation.BringToFront();
+            }
+        }
+
+
         private void btnSend_Click(object sender, EventArgs e)
         {
+            /* Exit Application */
+            if (txtMessage.Text == "/exit" || txtMessage.Text == "/quit")
+            {
+                if (connection_status)
+                {
+                    irclisten.Abort();
+                }
+                Application.Exit();
+            }
+
             /* Connection Statu: Not connected */
                 if (connection_status == false)
                 {
-                    string command_connect = "/connect ";
-
                     /* Connect to a network */
-                            if ( txtMessage.Text.Contains(command_connect) == true)
+                    if (txtMessage.Text.Contains("/connect ") == true)
                             {
                                 string[] pieces = txtMessage.Text.Split(new string[] { " " },
                                     StringSplitOptions.None);
                                         /* Get the server to connect to */
-                                        string SERVER = pieces[1];
-                                        /* Get the port to connect to
-                                         * Default: 6667 */
-                                        int PORT = 6667;
+                                        _SERVER = pieces[1];
+                                        /* Get the port to connect to */
                                         if (pieces.Length > 2)
                                         {
                                             if (pieces[2] != "")
@@ -245,14 +400,49 @@ namespace IRCBar
                                                 PORT = Convert.ToInt32(pieces[2]);
                                             }
                                         }
-                                        txtChat.Text = "Connecting to " + SERVER + " on port " + PORT + " ...";
-                                    
-                                if(irc.Connect(SERVER, PORT) == true) {
+                                        txtChat.Text = "Connecting to " + _SERVER + " on port " + PORT + " ...";
+
+                                        if (irc.Connect(_SERVER, PORT) == true)
+                                        {
                                     irc.Login(NICK, USER);
                                     connection_status = true;
-                                    txtChat.Text += "\n" + "Connected to " + SERVER;
-                                    txtChat.Text += "\n" + "Type: /join #ROOM" +
-                                        "\nEx: /join #chat";
+                                    txtChat.Text += "\n" + "Connected to " + _SERVER;
+
+                                    if (Properties.Settings.Default.DefaultChannel == "")
+                                    {
+                                        txtChat.Text += "\n" + "Type: /join #ROOM" +
+                                            "\nEx: /join #chat";
+                                    }
+                                    else
+                                    {
+                                        _ROOM = Properties.Settings.Default.DefaultChannel;
+                                        txtChat.Text = "Joining Room " + _ROOM + " on " + _SERVER + " ...";
+                                        irc.Join(_ROOM);
+
+                                        if (btnChannelInformation.Enabled == false)
+                                        {
+                                            btnChannelInformation.Enabled = true;
+                                        }
+
+                                        if (IconMenuChannelInformation.Enabled == false)
+                                        {
+                                            IconMenuChannelInformation.Enabled = true;
+                                        }
+
+                                        try
+                                        {
+                                            irclisten.Abort();
+                                        }
+
+                                        catch
+                                        {
+
+                                        }
+
+                                        // Spawn a thread to handle the listen.
+                                        irclisten = new Thread(new ThreadStart(IrcListenThread));
+                                        irclisten.Start();
+                                    }
                                 }
                                 else
                                 {
@@ -264,18 +454,24 @@ namespace IRCBar
             /* Connection Status: connected */
                 else
                 {
-                    string command_nick = "/nick ";
-                    string command_join = "/join ";
-                    string command_msg = "/msg ";
-
                     /* Join Chat Room */
-                    if (txtMessage.Text.Contains(command_join) == true)
+                    if (txtMessage.Text.Contains("/join ") == true)
                     {
                         string[] pieces = txtMessage.Text.Split(new string[] { " " },
                                 StringSplitOptions.None);
                         _ROOM = pieces[1];
-                        txtChat.Text = "Joining Room " + _ROOM + " ...";
+                        txtChat.Text = "Joining Room " + _ROOM + " on " + _SERVER + " ...";
                         irc.Join(_ROOM);
+
+                        if (btnChannelInformation.Enabled == false)
+                        {
+                            btnChannelInformation.Enabled = true;
+                        }
+
+                        if (IconMenuChannelInformation.Enabled == false)
+                        {
+                            IconMenuChannelInformation.Enabled = true;
+                        }
 
                         try
                         {
@@ -293,7 +489,7 @@ namespace IRCBar
                     }
 
                     /* Change Nick */
-                    else if (txtMessage.Text.Contains(command_nick) == true)
+                    else if (txtMessage.Text.Contains("/nick ") == true)
                     {
                         string[] pieces = txtMessage.Text.Split(new string[] { " " },
                                 StringSplitOptions.None);
@@ -302,7 +498,7 @@ namespace IRCBar
                     }
 
                     /* Private Message */
-                    else if (txtMessage.Text.Contains(command_msg) == true)
+                    else if (txtMessage.Text.Contains("/msg ") == true)
                     {
                         string[] pieces = txtMessage.Text.Split(new string[] { " " },
                                 StringSplitOptions.None);
@@ -312,21 +508,20 @@ namespace IRCBar
                         txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + pieces[1] + ": " + txtMessage.Text.Substring(xvar);
                     }
 
+                    /* Private Message */
+                    else if (txtMessage.Text.Contains("/me ") == true)
+                    {
+                        irc.Message(SendType.Action, _ROOM, txtMessage.Text.Substring(4));
+                        txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + txtMessage.Text.Substring(4);
+                    }
+
                     /* Send Message */
                     else
                     {
                         if (txtMessage.Text != "")
                         {
-                            if (txtMessage.Text.Substring(0, 4) == "/me ")
-                            {
-                                irc.Message(SendType.Action, _ROOM, txtMessage.Text.Substring(4));
-                                txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + txtMessage.Text.Substring(4);
-                            }
-                            else
-                            {
                                 irc.Message(SendType.Message, _ROOM, txtMessage.Text);
                                 txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + txtMessage.Text;
-                            }
                         }
                     }
 
