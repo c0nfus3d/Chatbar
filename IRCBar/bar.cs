@@ -309,7 +309,7 @@ namespace IRCBar
 
         public void OnQueryMessage(Data ircdata)
         {
-            SetText("\n" + DateTime.Now + ": " + ircdata.Nick + ": " + ircdata.Message);
+            SetText("\n" + DateTime.Now + ": Private Message From " + ircdata.Nick + ": " + ircdata.Message);
         }
 
         public void OnChannelMessage(Data ircdata)
@@ -505,14 +505,14 @@ namespace IRCBar
                         int xvar = pieces[1].Length + 5;
 
                         irc.Message(SendType.Message, pieces[1], txtMessage.Text.Substring(xvar));
-                        txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + pieces[1] + ": " + txtMessage.Text.Substring(xvar);
+                        txtChat.Text += "\n" + DateTime.Now + ": " + NICK + " to " + pieces[1] + ": " + txtMessage.Text.Substring(xvar);
                     }
 
                     /* Private Message */
                     else if (txtMessage.Text.Contains("/me ") == true)
                     {
                         irc.Message(SendType.Action, _ROOM, txtMessage.Text.Substring(4));
-                        txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + txtMessage.Text.Substring(4);
+                        txtChat.Text += "\n" + DateTime.Now + ": " + NICK + " is " + txtMessage.Text.Substring(4);
                     }
 
                     /* Send Message */

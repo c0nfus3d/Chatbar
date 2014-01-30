@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="WidgetHeight" Type="System.String" Scope="User">
-      <Value Profile="(Default)">90</Value>
+      <Value Profile="(Default)">120</Value>
     </Setting>
     <Setting Name="PreferredNickname" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -19,6 +19,9 @@
     </Setting>
     <Setting Name="DefaultServerPort" Type="System.String" Scope="User">
       <Value Profile="(Default)">6667</Value>
+    </Setting>
+    <Setting Name="DockPosition" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Top</Value>
     </Setting>
   </Settings>
 </SettingsFile>

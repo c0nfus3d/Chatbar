@@ -33,17 +33,20 @@
             this._WidgetHeight = new System.Windows.Forms.Label();
             this.WidgetHeightValue = new System.Windows.Forms.TextBox();
             this.LabelGroup = new System.Windows.Forms.GroupBox();
+            this._DockPosition = new System.Windows.Forms.Label();
+            this._AutoJoin = new System.Windows.Forms.Label();
             this._Autoconnect = new System.Windows.Forms.Label();
             this._DefaultServerPort = new System.Windows.Forms.Label();
             this._DefaultServer = new System.Windows.Forms.Label();
             this._PreferredNickname = new System.Windows.Forms.Label();
             this.ValueGroup = new System.Windows.Forms.GroupBox();
+            this.DockPosition = new System.Windows.Forms.ComboBox();
+            this.AutoJoin = new System.Windows.Forms.TextBox();
             this.Autoconnect = new System.Windows.Forms.CheckBox();
             this.DefaultServerPort = new System.Windows.Forms.TextBox();
             this.DefaultServer = new System.Windows.Forms.TextBox();
             this.PreferredNickname = new System.Windows.Forms.TextBox();
-            this._AutoJoin = new System.Windows.Forms.Label();
-            this.AutoJoin = new System.Windows.Forms.TextBox();
+            this._RestartNotice = new System.Windows.Forms.Label();
             this.LabelGroup.SuspendLayout();
             this.ValueGroup.SuspendLayout();
             this.SuspendLayout();
@@ -80,7 +83,6 @@
             // 
             // WidgetHeightValue
             // 
-            this.WidgetHeightValue.Enabled = false;
             this.WidgetHeightValue.Location = new System.Drawing.Point(6, 13);
             this.WidgetHeightValue.Name = "WidgetHeightValue";
             this.WidgetHeightValue.Size = new System.Drawing.Size(216, 20);
@@ -88,6 +90,7 @@
             // 
             // LabelGroup
             // 
+            this.LabelGroup.Controls.Add(this._DockPosition);
             this.LabelGroup.Controls.Add(this._AutoJoin);
             this.LabelGroup.Controls.Add(this._Autoconnect);
             this.LabelGroup.Controls.Add(this._DefaultServerPort);
@@ -101,10 +104,28 @@
             this.LabelGroup.TabStop = false;
             this.LabelGroup.Text = "Label";
             // 
+            // _DockPosition
+            // 
+            this._DockPosition.AutoSize = true;
+            this._DockPosition.Location = new System.Drawing.Point(6, 49);
+            this._DockPosition.Name = "_DockPosition";
+            this._DockPosition.Size = new System.Drawing.Size(73, 13);
+            this._DockPosition.TabIndex = 8;
+            this._DockPosition.Text = "Dock Position";
+            // 
+            // _AutoJoin
+            // 
+            this._AutoJoin.AutoSize = true;
+            this._AutoJoin.Location = new System.Drawing.Point(6, 219);
+            this._AutoJoin.Name = "_AutoJoin";
+            this._AutoJoin.Size = new System.Drawing.Size(54, 13);
+            this._AutoJoin.TabIndex = 7;
+            this._AutoJoin.Text = "Auto Join:";
+            // 
             // _Autoconnect
             // 
             this._Autoconnect.AutoSize = true;
-            this._Autoconnect.Location = new System.Drawing.Point(6, 153);
+            this._Autoconnect.Location = new System.Drawing.Point(6, 185);
             this._Autoconnect.Name = "_Autoconnect";
             this._Autoconnect.Size = new System.Drawing.Size(111, 13);
             this._Autoconnect.TabIndex = 6;
@@ -113,7 +134,7 @@
             // _DefaultServerPort
             // 
             this._DefaultServerPort.AutoSize = true;
-            this._DefaultServerPort.Location = new System.Drawing.Point(6, 117);
+            this._DefaultServerPort.Location = new System.Drawing.Point(6, 149);
             this._DefaultServerPort.Name = "_DefaultServerPort";
             this._DefaultServerPort.Size = new System.Drawing.Size(100, 13);
             this._DefaultServerPort.TabIndex = 5;
@@ -122,7 +143,7 @@
             // _DefaultServer
             // 
             this._DefaultServer.AutoSize = true;
-            this._DefaultServer.Location = new System.Drawing.Point(6, 83);
+            this._DefaultServer.Location = new System.Drawing.Point(6, 115);
             this._DefaultServer.Name = "_DefaultServer";
             this._DefaultServer.Size = new System.Drawing.Size(78, 13);
             this._DefaultServer.TabIndex = 4;
@@ -131,7 +152,7 @@
             // _PreferredNickname
             // 
             this._PreferredNickname.AutoSize = true;
-            this._PreferredNickname.Location = new System.Drawing.Point(6, 51);
+            this._PreferredNickname.Location = new System.Drawing.Point(6, 83);
             this._PreferredNickname.Name = "_PreferredNickname";
             this._PreferredNickname.Size = new System.Drawing.Size(104, 13);
             this._PreferredNickname.TabIndex = 3;
@@ -139,6 +160,7 @@
             // 
             // ValueGroup
             // 
+            this.ValueGroup.Controls.Add(this.DockPosition);
             this.ValueGroup.Controls.Add(this.AutoJoin);
             this.ValueGroup.Controls.Add(this.Autoconnect);
             this.ValueGroup.Controls.Add(this.DefaultServerPort);
@@ -152,10 +174,28 @@
             this.ValueGroup.TabStop = false;
             this.ValueGroup.Text = "Value";
             // 
+            // DockPosition
+            // 
+            this.DockPosition.FormattingEnabled = true;
+            this.DockPosition.Items.AddRange(new object[] {
+            "Top",
+            "Bottom"});
+            this.DockPosition.Location = new System.Drawing.Point(6, 46);
+            this.DockPosition.Name = "DockPosition";
+            this.DockPosition.Size = new System.Drawing.Size(121, 21);
+            this.DockPosition.TabIndex = 8;
+            // 
+            // AutoJoin
+            // 
+            this.AutoJoin.Location = new System.Drawing.Point(6, 216);
+            this.AutoJoin.Name = "AutoJoin";
+            this.AutoJoin.Size = new System.Drawing.Size(216, 20);
+            this.AutoJoin.TabIndex = 7;
+            // 
             // Autoconnect
             // 
             this.Autoconnect.AutoSize = true;
-            this.Autoconnect.Location = new System.Drawing.Point(6, 152);
+            this.Autoconnect.Location = new System.Drawing.Point(6, 184);
             this.Autoconnect.Name = "Autoconnect";
             this.Autoconnect.Size = new System.Drawing.Size(15, 14);
             this.Autoconnect.TabIndex = 7;
@@ -163,40 +203,34 @@
             // 
             // DefaultServerPort
             // 
-            this.DefaultServerPort.Location = new System.Drawing.Point(6, 114);
+            this.DefaultServerPort.Location = new System.Drawing.Point(6, 146);
             this.DefaultServerPort.Name = "DefaultServerPort";
             this.DefaultServerPort.Size = new System.Drawing.Size(216, 20);
             this.DefaultServerPort.TabIndex = 6;
             // 
             // DefaultServer
             // 
-            this.DefaultServer.Location = new System.Drawing.Point(6, 80);
+            this.DefaultServer.Location = new System.Drawing.Point(6, 112);
             this.DefaultServer.Name = "DefaultServer";
             this.DefaultServer.Size = new System.Drawing.Size(216, 20);
             this.DefaultServer.TabIndex = 5;
             // 
             // PreferredNickname
             // 
-            this.PreferredNickname.Location = new System.Drawing.Point(6, 48);
+            this.PreferredNickname.Location = new System.Drawing.Point(6, 80);
             this.PreferredNickname.Name = "PreferredNickname";
             this.PreferredNickname.Size = new System.Drawing.Size(216, 20);
             this.PreferredNickname.TabIndex = 4;
             // 
-            // _AutoJoin
+            // _RestartNotice
             // 
-            this._AutoJoin.AutoSize = true;
-            this._AutoJoin.Location = new System.Drawing.Point(6, 187);
-            this._AutoJoin.Name = "_AutoJoin";
-            this._AutoJoin.Size = new System.Drawing.Size(54, 13);
-            this._AutoJoin.TabIndex = 7;
-            this._AutoJoin.Text = "Auto Join:";
-            // 
-            // AutoJoin
-            // 
-            this.AutoJoin.Location = new System.Drawing.Point(6, 184);
-            this.AutoJoin.Name = "AutoJoin";
-            this.AutoJoin.Size = new System.Drawing.Size(216, 20);
-            this.AutoJoin.TabIndex = 7;
+            this._RestartNotice.AutoSize = true;
+            this._RestartNotice.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._RestartNotice.Location = new System.Drawing.Point(7, 347);
+            this._RestartNotice.Name = "_RestartNotice";
+            this._RestartNotice.Size = new System.Drawing.Size(284, 13);
+            this._RestartNotice.TabIndex = 6;
+            this._RestartNotice.Text = "*Changes to height or position require an application restart";
             // 
             // Settings
             // 
@@ -204,6 +238,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(465, 377);
+            this.Controls.Add(this._RestartNotice);
             this.Controls.Add(this.ValueGroup);
             this.Controls.Add(this.LabelGroup);
             this.Controls.Add(this._CancelButton);
@@ -219,6 +254,7 @@
             this.ValueGroup.ResumeLayout(false);
             this.ValueGroup.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -240,5 +276,8 @@
         private System.Windows.Forms.CheckBox Autoconnect;
         private System.Windows.Forms.Label _AutoJoin;
         private System.Windows.Forms.TextBox AutoJoin;
+        private System.Windows.Forms.Label _DockPosition;
+        private System.Windows.Forms.ComboBox DockPosition;
+        private System.Windows.Forms.Label _RestartNotice;
     }
 }

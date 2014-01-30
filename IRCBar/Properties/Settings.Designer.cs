@@ -25,7 +25,7 @@ namespace IRCBar.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("90")]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
         public string WidgetHeight {
             get {
                 return ((string)(this["WidgetHeight"]));
@@ -92,6 +92,18 @@ namespace IRCBar.Properties {
             }
             set {
                 this["DefaultServerPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Top")]
+        public string DockPosition {
+            get {
+                return ((string)(this["DockPosition"]));
+            }
+            set {
+                this["DockPosition"] = value;
             }
         }
     }

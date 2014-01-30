@@ -48,6 +48,7 @@
             this.UserList.MinimumSize = new System.Drawing.Size(355, 225);
             this.UserList.Name = "UserList";
             this.UserList.Size = new System.Drawing.Size(355, 225);
+            this.UserList.Sorted = true;
             this.UserList.TabIndex = 0;
             this.UserList.SelectedIndexChanged += new System.EventHandler(this.UserList_SelectedIndexChanged);
             // 

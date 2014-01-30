@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace IRCBar
 {
@@ -25,36 +26,55 @@ namespace IRCBar
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.WidgetHeight = WidgetHeightValue.Text;
-            Properties.Settings.Default.Autoconnect = Autoconnect.Checked;
-            Properties.Settings.Default.DefaultServerPort = DefaultServerPort.Text;
-            Properties.Settings.Default.DefaultServer = DefaultServer.Text;
-            Properties.Settings.Default.PreferredNickname = PreferredNickname.Text;
-            Properties.Settings.Default.DefaultChannel = AutoJoin.Text;
+            /**
+             * TODO
+            if (Properties.Settings.Default.DockPosition != this.DockPosition.Text)
+            {
+                if (this.DockPosition.Text == "Top")
+                {
+                    owningForm.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Top;
+                }
+                else
+                {
+                    owningForm.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Bottom;
+                }
+            }
+            */
+
+            Properties.Settings.Default.WidgetHeight = this.WidgetHeightValue.Text;
+            Properties.Settings.Default.Autoconnect = this.Autoconnect.Checked;
+            Properties.Settings.Default.DefaultServerPort = this.DefaultServerPort.Text;
+            Properties.Settings.Default.DefaultServer = this.DefaultServer.Text;
+            Properties.Settings.Default.PreferredNickname = this.PreferredNickname.Text;
+            Properties.Settings.Default.DefaultChannel = this.AutoJoin.Text;
+            Properties.Settings.Default.DockPosition = this.DockPosition.Text;
             Properties.Settings.Default.Save();
 
-            /*
+            /**
+             * TODO
             owningForm.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Float;
-            owningForm.ClientSize = new System.Drawing.Size(owningForm.Width, Convert.ToInt32(WidgetHeightValue.Text));
+            owningForm.Height = Convert.ToInt32(this.WidgetHeightValue.Text);
             owningForm.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Top;
 
             // After the form is resized, resize and position the elements
-            owningForm.txtChat.Size = new System.Drawing.Size(this.Width - 24, this.txtChat.Size.Height);
-            owningForm.txtMessage.Size = new System.Drawing.Size(this.Width - 202, this.txtMessage.Size.Height);
-            owningForm.btnSend.Location = new System.Drawing.Point(this.Width - 185, this.SettHeight - 18);
-            owningForm.btnChannelInformation.Location = new System.Drawing.Point(this.Width - 120, this.SettHeight - 18);
-            */
+            owningForm.btnSend.Location = new System.Drawing.Point(owningForm.Width - 185, Convert.ToInt32(this.WidgetHeightValue.Text) - 18);
+            owningForm.btnChannelInformation.Location = new System.Drawing.Point(owningForm.Width - 120, Convert.ToInt32(this.WidgetHeightValue.Text) - 18);
+            owningForm.txtChat.Size = new System.Drawing.Size(owningForm.Width - 24, owningForm.txtChat.Size.Height);
+            owningForm.txtMessage.Size = new System.Drawing.Size(owningForm.Width - 202, owningForm.txtMessage.Size.Height);
+             * */
         }
 
         private void Settings_Load(object sender, EventArgs e)
         {
+            this.Text += " -- Version " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             owningForm = (bar)this.Owner;
-            WidgetHeightValue.Text = Properties.Settings.Default.WidgetHeight;
-            Autoconnect.Checked = Properties.Settings.Default.Autoconnect;
-            DefaultServerPort.Text = Properties.Settings.Default.DefaultServerPort;
-            DefaultServer.Text = Properties.Settings.Default.DefaultServer;
-            PreferredNickname.Text = Properties.Settings.Default.PreferredNickname;
-            AutoJoin.Text = Properties.Settings.Default.DefaultChannel;
+            this.WidgetHeightValue.Text = Properties.Settings.Default.WidgetHeight;
+            this.Autoconnect.Checked = Properties.Settings.Default.Autoconnect;
+            this.DefaultServerPort.Text = Properties.Settings.Default.DefaultServerPort;
+            this.DefaultServer.Text = Properties.Settings.Default.DefaultServer;
+            this.PreferredNickname.Text = Properties.Settings.Default.PreferredNickname;
+            this.AutoJoin.Text = Properties.Settings.Default.DefaultChannel;
+            this.DockPosition.Text = Properties.Settings.Default.DockPosition;
         }
     }
 }
