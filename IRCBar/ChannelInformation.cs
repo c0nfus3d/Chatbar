@@ -36,7 +36,7 @@ namespace IRCBar
 
         private void UserList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (UserList.SelectedItem.ToString() != "")
+            if (UserList.SelectedIndex > -1)
             {
                 ChatBar.txtMessage.Text = "/msg " + UserList.SelectedItem.ToString() + " ";
                 ChatBar.txtMessage.Focus();
