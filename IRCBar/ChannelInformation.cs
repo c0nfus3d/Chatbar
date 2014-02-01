@@ -27,7 +27,10 @@ namespace IRCBar
 
             foreach (string bit in ChatBar._CurrentUsers)
             {
-                UserList.Items.Add(bit);
+                if (bit != "")
+                {
+                    UserList.Items.Add(bit);
+                }
             }
         }
 

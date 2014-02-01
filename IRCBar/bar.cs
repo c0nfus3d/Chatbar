@@ -209,6 +209,11 @@ namespace IRCBar
             }
         }
 
+        private string timedate()
+        {
+            return DateTime.Now + ": ";
+        }
+
         private void Link_Clicked(object sender, System.Windows.Forms.LinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(e.LinkText);
@@ -233,7 +238,7 @@ namespace IRCBar
             if (_ROOM == channel)
             {
                 _TOPIC = newtopic;
-                SetText("\n" + DateTime.Now + ": " + who + " has changed the topic: " + newtopic);
+                SetText("\n" + timedate() + who + " has changed the topic: " + newtopic);
             }
         }
 
@@ -249,7 +254,7 @@ namespace IRCBar
         {
             if (_ROOM == channel)
             {
-                SetText("\n" + DateTime.Now + ": " + who + " has unbanned " + userhostmask);
+                SetText("\n" + timedate() + who + " has unbanned " + userhostmask);
             }
         }
 
@@ -257,7 +262,7 @@ namespace IRCBar
         {
             if (_ROOM == channel)
             {
-                SetText("\n" + DateTime.Now + ": " + who + " has kicked " + victim + " - " + reason);
+                SetText("\n" + timedate() + who + " has kicked " + victim + " - " + reason);
             }
         }
 
@@ -266,7 +271,7 @@ namespace IRCBar
             if (_ROOM == channel)
             {
                 _CurrentUsers.Remove(who);
-                SetText("\n" + DateTime.Now + ": " + who + " has left - " + partmessage);
+                SetText("\n" + timedate() + who + " has left - " + partmessage);
             }
         }
 
@@ -274,7 +279,7 @@ namespace IRCBar
         {
             _CurrentUsers.Remove(oldnickname);
             _CurrentUsers.Add(newnickname);
-            SetText("\n" + DateTime.Now + ": " + oldnickname + " is now known as " + newnickname);
+            SetText("\n" + timedate() + oldnickname + " is now known as " + newnickname);
         }
 
         public void OnNameReply(string channel, string[] userlist, Data ircdata)
@@ -294,27 +299,29 @@ namespace IRCBar
         public void OnQuit(string who, string quitmessage, Data ircdata)
         {
             _CurrentUsers.Remove(who);
-            SetText("\n" + DateTime.Now + ": " + who + " has quit");
+            SetText("\n" + timedate() + who + " has quit");
         }
 
         public void OnJoin(string channelname, string who, Data ircdata)
         {
             if (_ROOM == channelname)
             {
-                _CurrentUsers.Add(who);
-                SetText("\n" + DateTime.Now + ": " + who + " has joined the chat.");
-                
+                if (!_CurrentUsers.Contains(who))
+                {
+                    _CurrentUsers.Add(who);
+                    SetText("\n" + timedate() + who + " has joined the chat.");
+                }
             }
         }
 
         public void OnQueryMessage(Data ircdata)
         {
-            SetText("\n" + DateTime.Now + ": Private Message From " + ircdata.Nick + ": " + ircdata.Message);
+            SetText("\n" + timedate() + "Private Message From " + ircdata.Nick + ": " + ircdata.Message);
         }
 
         public void OnChannelMessage(Data ircdata)
         {
-            SetText("\n" + DateTime.Now + ": " + ircdata.Nick + ": " + ircdata.Message);
+            SetText("\n" + timedate() + ircdata.Nick + ": " + ircdata.Message);
         }
 
         public void OnRawMessage(Data ircdata)
@@ -505,14 +512,14 @@ namespace IRCBar
                         int xvar = pieces[1].Length + 5;
 
                         irc.Message(SendType.Message, pieces[1], txtMessage.Text.Substring(xvar));
-                        txtChat.Text += "\n" + DateTime.Now + ": " + NICK + " to " + pieces[1] + ": " + txtMessage.Text.Substring(xvar);
+                        txtChat.Text += "\n" + timedate() + NICK + " to " + pieces[1] + ": " + txtMessage.Text.Substring(xvar);
                     }
 
                     /* Private Message */
                     else if (txtMessage.Text.Contains("/me ") == true)
                     {
                         irc.Message(SendType.Action, _ROOM, txtMessage.Text.Substring(4));
-                        txtChat.Text += "\n" + DateTime.Now + ": " + NICK + " is " + txtMessage.Text.Substring(4);
+                        txtChat.Text += "\n" + timedate() + NICK + " is " + txtMessage.Text.Substring(4);
                     }
 
                     /* Send Message */
@@ -521,7 +528,7 @@ namespace IRCBar
                         if (txtMessage.Text != "")
                         {
                                 irc.Message(SendType.Message, _ROOM, txtMessage.Text);
-                                txtChat.Text += "\n" + DateTime.Now + ": " + NICK + ": " + txtMessage.Text;
+                                txtChat.Text += "\n" + timedate() + NICK + ": " + txtMessage.Text;
                         }
                     }
 
