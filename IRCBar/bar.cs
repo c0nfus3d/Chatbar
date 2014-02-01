@@ -286,9 +286,12 @@ namespace IRCBar
         {
             if (_ROOM == channel)
             {
-                foreach (string bit in userlist)
+                foreach (string who in userlist)
                 {
-                    _CurrentUsers.Add(bit);
+                    if (!_CurrentUsers.Contains(who))
+                    {
+                        _CurrentUsers.Add(who);
+                    }
                 }
 
                 string currentUsers = string.Join(", ", userlist);

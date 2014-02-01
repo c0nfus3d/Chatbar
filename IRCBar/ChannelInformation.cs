@@ -27,7 +27,7 @@ namespace IRCBar
 
             foreach (string bit in ChatBar._CurrentUsers)
             {
-                if (bit != "")
+                if (bit != "" && bit != " ")
                 {
                     UserList.Items.Add(bit);
                 }
@@ -36,8 +36,11 @@ namespace IRCBar
 
         private void UserList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ChatBar.txtMessage.Text = "/msg " + UserList.SelectedItem.ToString() + " ";
-            ChatBar.txtMessage.Focus();
+            if (UserList.SelectedItem.ToString() != "")
+            {
+                ChatBar.txtMessage.Text = "/msg " + UserList.SelectedItem.ToString() + " ";
+                ChatBar.txtMessage.Focus();
+            }
         }
     }
 }
