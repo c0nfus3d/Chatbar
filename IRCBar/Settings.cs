@@ -50,6 +50,8 @@ namespace IRCBar
             Properties.Settings.Default.DockPosition = this.DockPosition.Text;
             Properties.Settings.Default.Save();
 
+            this.Close();
+
             /**
              * TODO
             owningForm.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Float;
