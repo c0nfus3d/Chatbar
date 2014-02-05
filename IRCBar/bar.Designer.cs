@@ -74,7 +74,7 @@ namespace IRCBar
             // 
             this.TheIcon.ContextMenuStrip = this.IconMenu;
             this.TheIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.TheIcon.Text = "C0NFUS3D Widget";
+            this.TheIcon.Text = "IRC Bar";
             this.TheIcon.Visible = true;
             // 
             // IconMenu

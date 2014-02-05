@@ -1,25 +1,41 @@
 # IRC Bar #
-----------
+-----------
 
-Docked IRC Chat Widget
+Dockable Windows IRC Chat Widget
 
-[**Visit Website**](http://theyconfuse.me/code/IRCBar)
+[**Visit Website**](http://theyconfuse.me/code/IRCBar) -- [**Download IRCBar.exe**](http://theyconfuse.me/downloads/binary/IRCBar.exe)
 
-### License ###
 
-Copyright (C) 2013 Joshua Richard
+## Commands ##
+- `/connect [server] [port :default 6667]` - Connect to a server
+- `/join [#channel]` - Join a channel
+- `/nick [nickname]` - Change nickname
+- `/msg [nickname] Private Message` - Send a private message
 
-    This program is free software: you can redistribute it and/or modify
-   	it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+## Release Notes ##
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see http://theyconfuse.me/license/gpl
+**Version 2.0.2** - Feb. 2014
 
-[GNU General Public License](http://theyconfuse.me/license/gpl) - <http://theyconfuse.me/license/gpl>
+- Added detailed channel information dialog and some application settings.
+ * A few things left to do in the Application Settings.
+- Currently limited to only one room and connected server
+
+
+## License ##
+
+Copyright 2014 Joshua Richard
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+[Apache License, Version 2.0](http://theyconfuse.me/license/apache2) -- <http://theyconfuse.me/license/apache2>
