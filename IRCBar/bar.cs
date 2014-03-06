@@ -92,15 +92,21 @@ namespace IRCBar
             this.ClientSize = new System.Drawing.Size(1280, Convert.ToInt32(Properties.Settings.Default.WidgetHeight));
             this.btnSend.Location = new System.Drawing.Point(this.Width - 185, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 18);
             this.btnChannelInformation.Location = new System.Drawing.Point(this.Width - 120, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 18);
+            try
+            {
+                this.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Top;
+            }
+            catch
+            {
 
-            this.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Top;
+            }
 
-            this.txtChat.Location = new System.Drawing.Point(1, this.Height - 100);
-            this.txtMessage.Location = new System.Drawing.Point(0, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 47);
+            this.txtChat.Location = new System.Drawing.Point(1, this.Height - 95);
+            this.txtMessage.Location = new System.Drawing.Point(0, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 21);
             this.txtChat.Size = new System.Drawing.Size(this.Width - 5, this.Height - 51);
-            this.btnSend.Location = new System.Drawing.Point(this.Width - 74, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 47);
-            this.btnChannelInformation.Location = new System.Drawing.Point(this.Width - 184, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 47);
-            this.txtMessage.Size = new System.Drawing.Size(this.Width - 184, this.txtMessage.Size.Height);
+            this.txtMessage.Size = new System.Drawing.Size(this.Width - (this.btnChannelInformation.Width + this.btnSend.Width + 25), this.txtMessage.Size.Height);
+            this.btnSend.Location = new System.Drawing.Point(this.Width - (this.btnSend.Width + 25), Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 22);
+            this.btnChannelInformation.Location = new System.Drawing.Point(this.Width - (this.btnChannelInformation.Width + this.btnSend.Width + 25), Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 22);
 
             if (Properties.Settings.Default.Autoconnect == true)
             {

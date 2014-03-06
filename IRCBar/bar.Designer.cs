@@ -31,54 +31,19 @@ namespace IRCBar
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(bar));
-            this.btnSend = new System.Windows.Forms.Button();
-            this.btnChannelInformation = new System.Windows.Forms.Button();
-            this.txtMessage = new System.Windows.Forms.TextBox();
             this.txtChat = new System.Windows.Forms.RichTextBox();
             this.TheIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.IconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.IconMenuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.IconMenuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tabpage_0 = new System.Windows.Forms.TabPage();
+            this.btnSend = new System.Windows.Forms.Button();
+            this.btnChannelInformation = new System.Windows.Forms.Button();
             this.chatTabs = new System.Windows.Forms.TabControl();
+            this.txtMessage = new System.Windows.Forms.TextBox();
             this.IconMenu.SuspendLayout();
-            this.tabpage_0.SuspendLayout();
             this.chatTabs.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnSend
-            // 
-            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSend.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSend.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnSend.Location = new System.Drawing.Point(958, 71);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(62, 21);
-            this.btnSend.TabIndex = 1;
-            this.btnSend.Text = "Send";
-            this.btnSend.UseVisualStyleBackColor = true;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
-            // 
-            // btnChannelInformation
-            // 
-            this.btnChannelInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnChannelInformation.Enabled = false;
-            this.btnChannelInformation.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChannelInformation.Location = new System.Drawing.Point(851, 71);
-            this.btnChannelInformation.Name = "btnChannelInformation";
-            this.btnChannelInformation.Size = new System.Drawing.Size(105, 21);
-            this.btnChannelInformation.TabIndex = 3;
-            this.btnChannelInformation.Text = "Information";
-            this.btnChannelInformation.UseVisualStyleBackColor = true;
-            this.btnChannelInformation.Click += new System.EventHandler(this.btnChannelInformation_Click);
-            // 
-            // txtMessage
-            // 
-            this.txtMessage.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMessage.Location = new System.Drawing.Point(0, 70);
-            this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(844, 21);
-            this.txtMessage.TabIndex = 0;
             // 
             // txtChat
             // 
@@ -106,34 +71,57 @@ namespace IRCBar
             this.IconMenuSettings,
             this.IconMenuExit});
             this.IconMenu.Name = "IconMenu";
-            this.IconMenu.Size = new System.Drawing.Size(114, 48);
+            this.IconMenu.Size = new System.Drawing.Size(117, 48);
             // 
             // IconMenuSettings
             // 
             this.IconMenuSettings.Name = "IconMenuSettings";
-            this.IconMenuSettings.Size = new System.Drawing.Size(113, 22);
+            this.IconMenuSettings.Size = new System.Drawing.Size(116, 22);
             this.IconMenuSettings.Text = "&Settings";
             this.IconMenuSettings.Click += new System.EventHandler(this.IconMenuSettings_Click);
             // 
             // IconMenuExit
             // 
             this.IconMenuExit.Name = "IconMenuExit";
-            this.IconMenuExit.Size = new System.Drawing.Size(113, 22);
+            this.IconMenuExit.Size = new System.Drawing.Size(116, 22);
             this.IconMenuExit.Text = "E&xit";
             this.IconMenuExit.Click += new System.EventHandler(this.IconMenuExit_Click);
             // 
             // tabpage_0
             // 
-            this.tabpage_0.Controls.Add(this.txtMessage);
-            this.tabpage_0.Controls.Add(this.btnChannelInformation);
-            this.tabpage_0.Controls.Add(this.btnSend);
             this.tabpage_0.Location = new System.Drawing.Point(4, 22);
             this.tabpage_0.Name = "tabpage_0";
             this.tabpage_0.Padding = new System.Windows.Forms.Padding(3);
-            this.tabpage_0.Size = new System.Drawing.Size(1020, 94);
+            this.tabpage_0.Size = new System.Drawing.Size(1020, 65);
             this.tabpage_0.TabIndex = 0;
             this.tabpage_0.Text = "[New Connection]";
             this.tabpage_0.UseVisualStyleBackColor = true;
+            // 
+            // btnSend
+            // 
+            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSend.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSend.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnSend.Location = new System.Drawing.Point(954, 97);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(62, 21);
+            this.btnSend.TabIndex = 1;
+            this.btnSend.Text = "Send";
+            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            // 
+            // btnChannelInformation
+            // 
+            this.btnChannelInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnChannelInformation.Enabled = false;
+            this.btnChannelInformation.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChannelInformation.Location = new System.Drawing.Point(850, 97);
+            this.btnChannelInformation.Name = "btnChannelInformation";
+            this.btnChannelInformation.Size = new System.Drawing.Size(105, 21);
+            this.btnChannelInformation.TabIndex = 3;
+            this.btnChannelInformation.Text = "Information";
+            this.btnChannelInformation.UseVisualStyleBackColor = true;
+            this.btnChannelInformation.Click += new System.EventHandler(this.btnChannelInformation_Click);
             // 
             // chatTabs
             // 
@@ -141,8 +129,16 @@ namespace IRCBar
             this.chatTabs.Location = new System.Drawing.Point(0, 0);
             this.chatTabs.Name = "chatTabs";
             this.chatTabs.SelectedIndex = 0;
-            this.chatTabs.Size = new System.Drawing.Size(1028, 120);
+            this.chatTabs.Size = new System.Drawing.Size(1028, 91);
             this.chatTabs.TabIndex = 5;
+            // 
+            // txtMessage
+            // 
+            this.txtMessage.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMessage.Location = new System.Drawing.Point(0, 97);
+            this.txtMessage.Name = "txtMessage";
+            this.txtMessage.Size = new System.Drawing.Size(844, 21);
+            this.txtMessage.TabIndex = 6;
             // 
             // bar
             // 
@@ -152,7 +148,10 @@ namespace IRCBar
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1028, 120);
             this.ControlBox = false;
+            this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.txtChat);
+            this.Controls.Add(this.btnChannelInformation);
+            this.Controls.Add(this.btnSend);
             this.Controls.Add(this.chatTabs);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
@@ -164,25 +163,24 @@ namespace IRCBar
             this.Text = "IRC Chat Bar";
             this.Load += new System.EventHandler(this.bar_Load);
             this.IconMenu.ResumeLayout(false);
-            this.tabpage_0.ResumeLayout(false);
-            this.tabpage_0.PerformLayout();
             this.chatTabs.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        public System.Windows.Forms.Button btnSend;
-        public System.Windows.Forms.Button btnChannelInformation;
-        public System.Windows.Forms.TextBox txtMessage;
         public System.Windows.Forms.RichTextBox txtChat;
         private System.Windows.Forms.NotifyIcon TheIcon;
         private System.Windows.Forms.ContextMenuStrip IconMenu;
         private System.Windows.Forms.ToolStripMenuItem IconMenuExit;
         private System.Windows.Forms.ToolStripMenuItem IconMenuSettings;
         private System.Windows.Forms.TabPage tabpage_0;
+        public System.Windows.Forms.Button btnChannelInformation;
+        public System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.TabControl chatTabs;
+        public System.Windows.Forms.TextBox txtMessage;
     }
 }
 
