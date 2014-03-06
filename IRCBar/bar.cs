@@ -32,21 +32,21 @@ namespace IRCBar
         private static Random _r = new Random();
         public int PORT = 6667;
 
-        /* Connection Status */
+        /** Connection Status */
             public bool connection_status = false;
-        /* Userstring */
+        /** Userstring */
             private static string USER = "C0NFUS3D IRC Bar";
-        /* Default Nickname */
+        /** Default Nickname */
             public string NICK = "barc_" + _r.Next();
-        /* Current chat room */
+        /** Current chat room */
             public string _ROOM;
-        /* IRC Server */
+        /** IRC Server */
             public string _SERVER;
-        /* Chat room topic */
+        /** Chat room topic */
             public string _TOPIC;
-        /* List of currently connected users */
+        /** List of currently connected users */
             public List<string> _CurrentUsers = new List<string>();
-        /* IRC Process Thread */
+        /** IRC Process Thread */
             public Thread irclisten;
 
             private static ChannelInformation _ChannelInformation { get; set; }
@@ -87,6 +87,21 @@ namespace IRCBar
 
         private void bar_Load(object sender, EventArgs e)
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(bar));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.ClientSize = new System.Drawing.Size(1280, Convert.ToInt32(Properties.Settings.Default.WidgetHeight));
+            this.btnSend.Location = new System.Drawing.Point(this.Width - 185, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 18);
+            this.btnChannelInformation.Location = new System.Drawing.Point(this.Width - 120, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 18);
+
+            this.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Top;
+
+            this.txtChat.Location = new System.Drawing.Point(1, this.Height - 100);
+            this.txtMessage.Location = new System.Drawing.Point(0, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 47);
+            this.txtChat.Size = new System.Drawing.Size(this.Width - 5, this.Height - 51);
+            this.btnSend.Location = new System.Drawing.Point(this.Width - 74, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 47);
+            this.btnChannelInformation.Location = new System.Drawing.Point(this.Width - 184, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 47);
+            this.txtMessage.Size = new System.Drawing.Size(this.Width - 184, this.txtMessage.Size.Height);
+
             if (Properties.Settings.Default.Autoconnect == true)
             {
                 if (Properties.Settings.Default.DefaultServerPort != "")
@@ -97,6 +112,7 @@ namespace IRCBar
 
                 if (irc.Connect(Properties.Settings.Default.DefaultServer, PORT) == true)
                 {
+                    this.tabpage_0.Text = Properties.Settings.Default.DefaultServer;
                     irc.Login(NICK, USER);
                     connection_status = true;
                     _SERVER = Properties.Settings.Default.DefaultServer;
@@ -116,11 +132,6 @@ namespace IRCBar
                         if (btnChannelInformation.Enabled == false)
                         {
                             btnChannelInformation.Enabled = true;
-                        }
-
-                        if (IconMenuChannelInformation.Enabled == false)
-                        {
-                            IconMenuChannelInformation.Enabled = true;
                         }
 
                         try
@@ -320,11 +331,18 @@ namespace IRCBar
         public void OnQueryMessage(Data ircdata)
         {
             SetText("\n" + timedate() + "Private Message From " + ircdata.Nick + ": " + ircdata.Message);
+
+            TheIcon.ShowBalloonTip(5000, "IRC Message", ircdata.Nick + ": " + ircdata.Message, ToolTipIcon.None);
         }
 
         public void OnChannelMessage(Data ircdata)
         {
             SetText("\n" + timedate() + ircdata.Nick + ": " + ircdata.Message);
+
+            if (ircdata.Message.Contains( "@" + this.NICK ) )
+            {
+                TheIcon.ShowBalloonTip(5000, "IRC Message", ircdata.Nick + ": " + ircdata.Message, ToolTipIcon.Info);
+            }
         }
 
         public void OnRawMessage(Data ircdata)
@@ -397,7 +415,7 @@ namespace IRCBar
                 {
                     /* Connect to a network */
                     if (txtMessage.Text.Contains("/connect ") == true)
-                            {
+                    {
                                 string[] pieces = txtMessage.Text.Split(new string[] { " " },
                                     StringSplitOptions.None);
                                         /* Get the server to connect to */
@@ -414,51 +432,47 @@ namespace IRCBar
 
                                         if (irc.Connect(_SERVER, PORT) == true)
                                         {
-                                    irc.Login(NICK, USER);
-                                    connection_status = true;
-                                    txtChat.Text += "\n" + "Connected to " + _SERVER;
+                                            this.tabpage_0.Text = _SERVER;
+                                            irc.Login(NICK, USER);
+                                            connection_status = true;
+                                            txtChat.Text += "\n" + "Connected to " + _SERVER;
 
-                                    if (Properties.Settings.Default.DefaultChannel == "")
-                                    {
-                                        txtChat.Text += "\n" + "Type: /join #ROOM" +
-                                            "\nEx: /join #chat";
-                                    }
-                                    else
-                                    {
-                                        _ROOM = Properties.Settings.Default.DefaultChannel;
-                                        txtChat.Text = "Joining Room " + _ROOM + " on " + _SERVER + " ...";
-                                        irc.Join(_ROOM);
+                                            if (Properties.Settings.Default.DefaultChannel == "")
+                                            {
+                                                txtChat.Text += "\n" + "Type: /join #ROOM" +
+                                                    "\nEx: /join #chat";
+                                            }
+                                            else
+                                            {
+                                                _ROOM = Properties.Settings.Default.DefaultChannel;
+                                                txtChat.Text = "Joining Room " + _ROOM + " on " + _SERVER + " ...";
+                                                irc.Join(_ROOM);
 
-                                        if (btnChannelInformation.Enabled == false)
-                                        {
-                                            btnChannelInformation.Enabled = true;
+                                                if (btnChannelInformation.Enabled == false)
+                                                {
+                                                    btnChannelInformation.Enabled = true;
+                                                }
+
+                                                try
+                                                {
+                                                    irclisten.Abort();
+                                                }
+
+                                                catch
+                                                {
+
+                                                }
+
+                                                // Spawn a thread to handle the listen.
+                                                irclisten = new Thread(new ThreadStart(IrcListenThread));
+                                                irclisten.Start();
+                                            }
                                         }
-
-                                        if (IconMenuChannelInformation.Enabled == false)
+                                        else
                                         {
-                                            IconMenuChannelInformation.Enabled = true;
+                                            txtChat.Text += "\n" + "Error: Could not connect.";
                                         }
-
-                                        try
-                                        {
-                                            irclisten.Abort();
-                                        }
-
-                                        catch
-                                        {
-
-                                        }
-
-                                        // Spawn a thread to handle the listen.
-                                        irclisten = new Thread(new ThreadStart(IrcListenThread));
-                                        irclisten.Start();
-                                    }
-                                }
-                                else
-                                {
-                                    txtChat.Text += "\n" + "Error: Could not connect.";
-                                }
-                            }
+                    }
                 }
 
             /* Connection Status: connected */
@@ -476,11 +490,6 @@ namespace IRCBar
                         if (btnChannelInformation.Enabled == false)
                         {
                             btnChannelInformation.Enabled = true;
-                        }
-
-                        if (IconMenuChannelInformation.Enabled == false)
-                        {
-                            IconMenuChannelInformation.Enabled = true;
                         }
 
                         try

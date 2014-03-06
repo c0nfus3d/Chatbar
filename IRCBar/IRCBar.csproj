@@ -90,8 +90,8 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="ShellApi.cs.cs" />
-    <Compile Include="ShellLib.cs.cs" />
+    <Compile Include="ShellApi.cs" />
+    <Compile Include="ShellLib.cs" />
     <Compile Include="ChannelInformation.cs">
       <SubType>Form</SubType>
     </Compile>

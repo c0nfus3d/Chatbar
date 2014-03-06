@@ -85,6 +85,7 @@
             // 
             this.WidgetHeightValue.Location = new System.Drawing.Point(6, 13);
             this.WidgetHeightValue.Name = "WidgetHeightValue";
+            this.WidgetHeightValue.ReadOnly = true;
             this.WidgetHeightValue.Size = new System.Drawing.Size(216, 20);
             this.WidgetHeightValue.TabIndex = 3;
             // 
@@ -228,9 +229,9 @@
             this._RestartNotice.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._RestartNotice.Location = new System.Drawing.Point(7, 347);
             this._RestartNotice.Name = "_RestartNotice";
-            this._RestartNotice.Size = new System.Drawing.Size(284, 13);
+            this._RestartNotice.Size = new System.Drawing.Size(239, 13);
             this._RestartNotice.TabIndex = 6;
-            this._RestartNotice.Text = "*Changes to height or position require an application restart";
+            this._RestartNotice.Text = "Some changes may require an application restart.";
             // 
             // Settings
             // 
