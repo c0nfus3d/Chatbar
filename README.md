@@ -15,6 +15,11 @@ Dockable Windows IRC Chat Widget
 
 ## Release Notes ##
 
+**Version 2.0.3** - Apr. 2014
+
+- Bug Fixes
+
+
 **Version 2.0.2** - Feb. 2014
 
 - Added detailed channel information dialog and some application settings.

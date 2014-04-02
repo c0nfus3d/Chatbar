@@ -35,9 +35,9 @@ namespace IRCBar
         /** Connection Status */
             public bool connection_status = false;
         /** Userstring */
-            private static string USER = "C0NFUS3D IRC Bar";
+            private static string USER = "C0NFUS3D Bar User";
         /** Default Nickname */
-            public string NICK = "barc_" + _r.Next();
+            public string NICK = "bar_" + _r.Next();
         /** Current chat room */
             public string _ROOM;
         /** IRC Server */
@@ -89,24 +89,35 @@ namespace IRCBar
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(bar));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.ClientSize = new System.Drawing.Size(1280, Convert.ToInt32(Properties.Settings.Default.WidgetHeight));
-            this.btnSend.Location = new System.Drawing.Point(this.Width - 185, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 18);
-            this.btnChannelInformation.Location = new System.Drawing.Point(this.Width - 120, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 18);
+            this.Height = Convert.ToInt32(Properties.Settings.Default.WidgetHeight);
             try
             {
-                this.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Top;
+                if (Properties.Settings.Default.DockPosition == "Top")
+                {
+                    this.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Top;
+                }
+                else
+                {
+                    this.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Bottom;
+                }
             }
             catch
             {
-
+                this.Width = 800;
             }
 
-            this.txtChat.Location = new System.Drawing.Point(1, this.Height - 95);
-            this.txtMessage.Location = new System.Drawing.Point(0, Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 21);
-            this.txtChat.Size = new System.Drawing.Size(this.Width - 5, this.Height - 51);
-            this.txtMessage.Size = new System.Drawing.Size(this.Width - (this.btnChannelInformation.Width + this.btnSend.Width + 25), this.txtMessage.Size.Height);
-            this.btnSend.Location = new System.Drawing.Point(this.Width - (this.btnSend.Width + 25), Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 22);
-            this.btnChannelInformation.Location = new System.Drawing.Point(this.Width - (this.btnChannelInformation.Width + this.btnSend.Width + 25), Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 22);
+            this.txtChat.Left = 1;
+            this.txtChat.Top = this.Height - 95;
+            this.txtMessage.Left = 0;
+            this.txtMessage.Top = Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 23;
+            this.txtChat.Width = this.Width - 5;
+            this.txtChat.Height = this.Height - 51;
+            this.txtMessage.Width = this.Width - (this.btnChannelInformation.Width + this.btnSend.Width + 25);
+            this.txtMessage.Height = this.txtMessage.Size.Height;
+            this.btnSend.Left = this.Width - (this.btnSend.Width + 25);
+            this.btnSend.Top = Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 23;
+            this.btnChannelInformation.Left = this.Width - (this.btnChannelInformation.Width + this.btnSend.Width + 25);
+            this.btnChannelInformation.Top = Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 23;
 
             if (Properties.Settings.Default.Autoconnect == true)
             {

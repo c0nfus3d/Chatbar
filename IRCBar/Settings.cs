@@ -26,20 +26,19 @@ namespace IRCBar
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            /**
-             * TODO
             if (Properties.Settings.Default.DockPosition != this.DockPosition.Text)
             {
                 if (this.DockPosition.Text == "Top")
                 {
+                    owningForm.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Float;
                     owningForm.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Top;
                 }
                 else
                 {
+                    owningForm.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Float;
                     owningForm.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Bottom;
                 }
             }
-            */
 
             Properties.Settings.Default.WidgetHeight = this.WidgetHeightValue.Text;
             Properties.Settings.Default.Autoconnect = this.Autoconnect.Checked;
@@ -52,18 +51,24 @@ namespace IRCBar
 
             this.Close();
 
-            /**
-             * TODO
+            /** # TODO: FIX THIS
             owningForm.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Float;
             owningForm.Height = Convert.ToInt32(this.WidgetHeightValue.Text);
             owningForm.Edge = IRCBar.ShellLib.ApplicationDesktopToolbar.AppBarEdges.Top;
 
-            // After the form is resized, resize and position the elements
-            owningForm.btnSend.Location = new System.Drawing.Point(owningForm.Width - 185, Convert.ToInt32(this.WidgetHeightValue.Text) - 18);
-            owningForm.btnChannelInformation.Location = new System.Drawing.Point(owningForm.Width - 120, Convert.ToInt32(this.WidgetHeightValue.Text) - 18);
-            owningForm.txtChat.Size = new System.Drawing.Size(owningForm.Width - 24, owningForm.txtChat.Size.Height);
-            owningForm.txtMessage.Size = new System.Drawing.Size(owningForm.Width - 202, owningForm.txtMessage.Size.Height);
-             * */
+            owningForm.txtChat.Left = 1;
+            owningForm.txtChat.Top = owningForm.Height - 95;
+            owningForm.txtMessage.Left = 0;
+            owningForm.txtMessage.Top = Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 23;
+            owningForm.txtChat.Width = owningForm.Width - 5;
+            owningForm.txtChat.Height = owningForm.Height - 51;
+            owningForm.txtMessage.Width = owningForm.Width - (owningForm.btnChannelInformation.Width + owningForm.btnSend.Width + 25);
+            owningForm.txtMessage.Height = owningForm.txtMessage.Size.Height;
+            owningForm.btnSend.Left = owningForm.Width - (owningForm.btnSend.Width + 25);
+            owningForm.btnSend.Top = Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 23;
+            owningForm.btnChannelInformation.Left = owningForm.Width - (owningForm.btnChannelInformation.Width + owningForm.btnSend.Width + 25);
+            owningForm.btnChannelInformation.Top = Convert.ToInt32(Properties.Settings.Default.WidgetHeight) - 23;
+            */
         }
 
         private void Settings_Load(object sender, EventArgs e)
